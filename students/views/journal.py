@@ -10,12 +10,12 @@ def students_list(request):
 	students = (
 		{'id':1,
 		 'name': u'Лупа Андрій',
-		 'month':  'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' },
+		 'month': m },
 		{'id':2,
 		 'name': u'Чепига Юрій',
-		 'month': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' },
+		 'month': m },
 		{'id':3,
 		 'name': u'Курін Ілля',
-		 'month': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' },
+		 'month': m },
 		)
 	return render(request, 'students/journal.html', {'students': students})
