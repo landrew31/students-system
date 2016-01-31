@@ -120,3 +120,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+from django.conf import global_settings
+
+TEMPLATE_CONTEXT_PROCESSORS = \
+    global_settings.TEMPLATE_CONTEXT_PROCESSORS + [
+    "django.core.context_processors.request",
+    "studentsdb.context_processors.students_proc",
+]
+
+PORTAL_URL = 'http://localhost:8000'
