@@ -1,0 +1,72 @@
+{% extends "students/base.html" %}
+
+{% load static from staticfiles%}
+
+{% block meta_title %}Відвідування{% endblock meta_title %}
+
+{% block title %}Облік Відвідування{% endblock title %}
+
+{% block content %}		
+	<!-- Start main Page Content -->
+<div class="text-center">
+	<a href="#">&larr;</a><STRONG>Жовтень 2015</STRONG><a href="#">&rarr;</a>
+</div>
+
+	<!-- Start Students Listing -->
+<table class="table table-bordered table-hover table-striped">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Студент</th>
+			<th><div class="text-center">Ср 1</div></th>
+			<th><div class="text-center">Чт 2</div></th>
+			<th><div class="text-center">Пт 3</div></th>
+			<th><div class="text-center">Сб 4</div></th>
+			<th><div class="text-center">Нд 5</div></th>
+			<th><div class="text-center">Пн 6</div></th>
+			<th><div class="text-center">Вт 7</div></th>
+			<th><div class="text-center">Ср 8</div></th>
+			<th><div class="text-center">Чт 9</div></th>
+			<th><div class="text-center">Пт 10</div></th>
+			<th><div class="text-center">Сб 11</div></th>
+			<th><div class="text-center">Нд 12</div></th>
+			<th><div class="text-center">Пн 13</div></th>
+			<th><div class="text-center">Вт 14</div></th>
+			<th><div class="text-center">Ср 15</div></th>
+			<th><div class="text-center">Чт 16</div></th>
+			<th><div class="text-center">Пт 17</div></th>
+			<th><div class="text-center">Сб 18</div></th>
+			<th><div class="text-center">Нд 19</div></th>
+			<th><div class="text-center">Пн 20</div></th>
+			<th><div class="text-center">Вт 21</div></th>
+			<th><div class="text-center">Ср 22</div></th>
+			<th><div class="text-center">Чт 23</div></th>
+			<th><div class="text-center">Пт 24</div></th>
+			<th><div class="text-center">Сб 25</div></th>
+			<th><div class="text-center">Нд 26</div></th>
+			<th><div class="text-center">Пн 27</div></th>
+			<th><div class="text-center">Вт 28</div></th>
+			<th><div class="text-center">Ср 29</div></th>
+			<th><div class="text-center">Чт 30</div></th>
+			<th><div class="text-center">Пт 31</div></th>
+		</tr>
+	</thead>
+
+	<tbody>
+		{% for student in students %}
+		<tr>
+			<td>{{ forloop.counter }}</td>
+			<td>{{ student.name }}</td>
+			
+			{% for i in student.month %}
+			<td><input type="checkbox"></td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+		
+	</tbody>
+</table>
+
+{% endblock content %}
+	
+	<!-- End Main Page Content -->
