@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+	<meta charset="UTF-8"/>
+	<title>Сервіс обліку студентів</title>
+	<meta name="Description" value="Система обліку студентів навчального закладу" />
+
+	<!-- Include Styles -->
+	<link rel='stylesheet' href='https://cdn.jsdelivr.net/bootstrap/3.3.0/css/bootstrap.min.css'>
+
+	<link rel="stylesheet"  href="./css/main.css">
+</head>
+
+<body>
+	<!-- Start Container -->
+	<div class="container">
+
+		<!-- Start Header -->
+
+		<div class="row" id="header">
+
+			<!-- Logo -->
+			<div class="col-xs-8">
+				<h1>Сервіс Обліку Студентів</h1>
+			</div>
+
+			<!-- Groups Selector -->
+			<div class="col-xs-4" id="group-selector">
+				<STRONG>Група:</STRONG>
+				<select>
+					<option value="">Усі Студенти</option>
+					<option value="">КА-31, Лупа Андрій (№9)</option>
+					<option value="">КА-32, Чепига Юрій (№18)</option>
+				</select>
+			</div>
+		</div>
+		<!-- End Header -->
+
+		<!-- Start Subheader -->
+
+		<div class="row" id="sub-header">
+			<div class="col-xs-12">
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="active" role="presentation"> <a href="/">Студенти</a></li>
+					<li role="presentation"> <a href="/journal">Відвідування</a></li>
+					<li role="presentation"> <a href="/groups">Групи</a></li>
+				</ul>
+			</div>
+		</div>
+		<!-- End Subheader -->
+
+		<!-- Start main Page Content -->
+
+		<div class="row" id="content-columns">
+			
+			<div class="col-xs-12" id="content-column">
+				
+				<!-- Status Massage -->
+				<div class="alert alert-warning">Зміни скасовано.</div>
+
+				<h2>База Студентів</h2>
+
+				<!-- Add Student Button -->
+				<a class="btn btn-primary" href="/students/add">Додати Студента</a>
+
+				<!-- Start Students Listing -->
+				<table class="table table-hover table-striped">
+					<thead>
+						<tr>
+							<th> <a href="">№</a></th>
+							<th>Фото</th>
+							<th> <a href="">Прізвище &uarr;</a></th>
+							<th> <a href="">Імя</a></th>
+							<th> <a href="">№ Білету</a></th>
+							<th>Дії</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td> <img src="./img/me.jpg" height="30" width="30" class="img-circle"></td>
+							<td> <a title="Редагувати" href="/students/1/edit">Лупа</a></td>
+							<td> <a title="Редагувати" href="/students/1/edit">Андрій</a></td>
+							<td>9</td>
+							<td>
+								<div class="dropdown">
+									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<li role="presentation">
+											<a href="/journal/1" role="menuitem" tabindex="-1">Відвідування</a>
+										</li>
+										<li role="presentation">
+										    <a role="menuitem" tabindex="-1" href="/students/1/edit">Редагувати</a>
+										</li>
+										<li role="presentation">
+										    <a role="menuitem"tabindex="-1" href="/students/1/delete">Видалити</a>
+										</li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td>2</td>
+							<td> <img src="./img/chep.jpg" height="30" width="30" class="img-circle"></td>
+							<td> <a title="Редагувати" href="/students/2/edit">Чепига</a></td>
+							<td> <a title="Редагувати" href="/students/2/edit">Юрій</a></td>
+							<td>18</td>
+							<td>
+								<div class="dropdown">
+									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<li role="presentation">
+											<a href="/journal/2" role="menuitem" tabindex="-1">Відвідування</a>
+										</li>
+										<li role="presentation">
+										    <a role="menuitem" tabindex="-1" href="/students/2/edit">Редагувати</a>
+										</li>
+										<li role="presentation">
+										    <a role="menuitem"tabindex="-1" href="/students/2/edit">Видалити</a>
+										</li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<td>3</td>
+							<td> <img src="./img/kur.jpg" height="30" width="30" class="img-circle"></td>
+							<td> <a title="Редагувати" href="/students/3/edit">Курін</a></td>
+							<td> <a title="Редагувати" href="/students/3/edit">Ілля</a></td>
+							<td>7</td>
+							<td>
+								<div class="dropdown">
+									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія<span class="caret"></span>
+									</button>
+									<ul class="dropdown-menu" role="menu">
+										<li role="presentation">
+											<a href="/journal/3" role="menuitem" tabindex="-1">Відвідування</a>
+										</li>
+										<li role="presentation">
+										    <a role="menuitem" tabindex="-1" href="/students/3/edit">Редагувати</a>
+										</li>
+										<li role="presentation">
+										    <a role="menuitem"tabindex="-1" href="/students/3/edit">Видалити</a>
+										</li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+				<nav>
+				    <ul class="pagination">
+				        <li><a href="#">&laquo;</a></li>
+				        <li><a href="#">1</a></li>
+				        <li class="active"><a href="#">2</a></li>
+				        <li><a href="#">3</a></li>
+				        <li><a href="#">4</a></li>
+				        <li><a href="#">5</a></li>
+				        <li><a href="#">&raquo;</a></li>
+				    </ul>
+				</nav>
+				<!-- End Students Listing -->
+			</div>
+		</div>
+		<!-- End Main Page Content -->
+
+		<!-- Start Footer -->
+
+		<div class="row" id="footer">
+			<div class="col-xs-12">
+				&copy; 2016 Сервіс Обліку Студентів
+			</div>
+		</div>
+		<!-- End Footer -->
+
+	</div>
+	<!-- Ent Container -->
+
+
+	<!-- Javascripts Section -->
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</body>
+</html>
