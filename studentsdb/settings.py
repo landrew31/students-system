@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
+from .db import DATABASES
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -72,16 +74,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'studentsdb.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, '..', 'db.sqlite3'),
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -133,4 +125,4 @@ TEMPLATE_CONTEXT_PROCESSORS = \
 PORTAL_URL = 'http://localhost:8000'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '...', 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'media')
