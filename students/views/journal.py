@@ -3,7 +3,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-#Views for Students
+from ..models.monthjournal import MonthJournal
+
+#Views for monthjournal
 
 def students_list(request):
 	m = range(0,31)
