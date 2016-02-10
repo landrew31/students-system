@@ -39,6 +39,12 @@ urlpatterns = patterns('',
 	url(r'^exams/(?P<sid>\d+)/edit/$', 'students.views.exams.exams_edit', name='exams_edit'),
 	url(r'^exams/(?P<sid>\d+)/delete/$', 'students.views.exams.exams_delete', name='exams_delete'),
 
+	#Exams Results urls
+	url(r'^results/$', 'students.views.results.results_list', name='results'),
+	url(r'^results/add/$', 'students.views.results.results_add', name='results_add'),
+	url(r'^results/(?P<sid>\d+)/edit/$', 'students.views.results.results_edit', name='results_edit'),
+	url(r'^results/(?P<sid>\d+)/delete/$', 'students.views.results.results_delete', name='results_delete'),
+
     url(r'^admin/', include(admin.site.urls)),
 )
 

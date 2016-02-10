@@ -4,7 +4,7 @@
 
 {% block meta_title %}Студенти{% endblock meta_title %}
 
-{% block title %}База Студентів{% endblock title %}
+{% block title %}База Іспитів{% endblock title %}
 
 {% block content %}
 
@@ -33,6 +33,8 @@
 			<th> <a href="{% url "exams" %}?order_by=for_group{% if order_by == 'for_group' and reverse != '1' %}&amp;reverse=1{% endif %}">Група
 			{% if order_by == 'for_group' and reverse != '1' %}&uarr;
 			{% elif order_by == 'for_group' and reverse == '1' %}&darr;{% endif %}</a></th>
+
+			<th>Дії</th>
 		</tr>
 	</thead>
 	{% endwith %}
@@ -46,6 +48,21 @@
 			
 			<td> <a title="Редагувати" href="{% url "exams_edit" exam.id %}">{{ exam.teacher }}</a></td>
 			<td> <a title="Редагувати" href="{% url "exams_edit" exam.id %}">{{ exam.for_group.title }}</a></td>
+
+			<td>
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Дія<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li role="presentation">
+						    <a role="menuitem" tabindex="-1" href="{% url "exams_edit" exam.id  %}">Редагувати</a>
+						</li>
+						<li role="presentation">
+						    <a role="menuitem"tabindex="-1" href="{% url "exams_delete" exam.id %}">Видалити</a>
+						</li>
+					</ul>
+				</div>
+			</td>
 		</tr>
 		{% endfor %}
 
