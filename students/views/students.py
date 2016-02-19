@@ -88,7 +88,12 @@ def students_add(request):
 
 			photo = request.FILES.get('photo')
 			if photo:
-				data['photo'] = photo
+				if photo.size > (2048*1024):
+					errors['photo'] = u"Розмір фото не повинен перевищувати 2 МБ"
+				elif not('image' in photo.content_type):
+					errors['photo'] = u"Тип вибраного файлу не зображення"
+				else:
+					data['photo'] = photo
 
 
 
@@ -105,7 +110,8 @@ def students_add(request):
 
 			else:
 				#render form with errors and previous user input
-				messages.error(request, u'Будь ласка, виправте помилки!')
+				for error_key in errors.keys():
+					messages.error(request, errors[error_key])
 				return render(request, 'students/students_add.html',
 					{'groups': Group.objects.all().order_by('title'),
 					 'errors': errors})
