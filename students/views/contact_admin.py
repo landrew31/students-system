@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
+from django.views.generic.edit import FormView
 
 from studentsdb.settings import ADMIN_EMAIL
 
@@ -48,8 +49,28 @@ class ContactForm(forms.Form):
 		max_length=2560,
 		widget=forms.Textarea)
 
+	def send_email(self):
+		return send_mail(subject, message, from_email, ADMIN_EMAIL)
 
-def contact_admin(request):
+class ContactView(FormView):
+	template_name = 'contact_admin/form.html'
+	form_class = ContactForm
+
+	success_url = '/contact_admin'
+
+	def form_valid(self, form):
+
+		try:
+			form.send_email()
+		except Exception:
+			messages.error(request, u'Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатися даною формою пізніше')
+		else:
+			messages.success(request, u'Повідомлення успішно надіслано!')
+
+		return super(ContactView, self).form_valid(form)
+
+
+"""def contact_admin(request):
 	# check if form posted
 	if request.method == 'POST':
 		#create a form instance and populate it with data from the request:
@@ -77,4 +98,4 @@ def contact_admin(request):
 	else:
 		form = ContactForm()
 
-	return render(request, 'contact_admin/form.html', {'form': form})
+	return render(request, 'contact_admin/form.html', {'form': form})"""
