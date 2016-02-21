@@ -3,7 +3,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from ..models.monthjournal import MonthJournal
+#from ..models.monthjournal import MonthJournal
 
 #Views for monthjournal
 

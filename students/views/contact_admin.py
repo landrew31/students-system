@@ -49,28 +49,35 @@ class ContactForm(forms.Form):
 		max_length=2560,
 		widget=forms.Textarea)
 
+	recipient_list = [ADMIN_EMAIL]
+
 	def send_email(self):
-		return send_mail(subject, message, from_email, ADMIN_EMAIL)
+		subject = self.cleaned_data['subject']
+		message = self.cleaned_data['message']
+		from_email = self.cleaned_data['from_email']
+		print(subject, message, from_email, [ADMIN_EMAIL])
+		return send_mail(subject, message, from_email, [ADMIN_EMAIL])
 
 class ContactView(FormView):
 	template_name = 'contact_admin/form.html'
 	form_class = ContactForm
 
-	success_url = '/contact_admin'
+	def get_success_url(self):
+		return reverse('contact_admin')
 
 	def form_valid(self, form):
 
 		try:
 			form.send_email()
 		except Exception:
-			messages.error(request, u'Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатися даною формою пізніше')
+			messages.error(self.request, u'Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатися даною формою пізніше')
 		else:
-			messages.success(request, u'Повідомлення успішно надіслано!')
+			messages.success(self.request, u'Повідомлення успішно надіслано!')
 
 		return super(ContactView, self).form_valid(form)
 
-
-"""def contact_admin(request):
+"""
+def contact_admin(request):
 	# check if form posted
 	if request.method == 'POST':
 		#create a form instance and populate it with data from the request:
@@ -98,4 +105,5 @@ class ContactView(FormView):
 	else:
 		form = ContactForm()
 
-	return render(request, 'contact_admin/form.html', {'form': form})"""
+	return render(request, 'contact_admin/form.html', {'form': form})
+	"""
