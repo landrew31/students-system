@@ -19,6 +19,7 @@ class StudentFormAdmin(ModelForm):
 
 		return self.cleaned_data['student_group']
 
+
 class StudentAdmin(admin.ModelAdmin):
 	list_display = ['last_name', 'first_name', 'ticket', 'student_group']
 	list_display_links = ['last_name', 'first_name']
@@ -27,7 +28,16 @@ class StudentAdmin(admin.ModelAdmin):
 	list_filter = ['student_group']
 	list_per_page = 10
 	search_fields = ['last_name', 'first_name', 'middle_name', 'ticket', 'notes']
+	actions = ['copy']
 	form = StudentFormAdmin
+
+	def copy(self, request, queryset):
+		for student in queryset.values():
+			student.pop('id')
+			Student(**student).save()
+		self.message_user(request, u'Скопійовано студентів: %s' % len(queryset))
+
+	copy.short_description = u'Копіювати вибраних студентів'
 
 	def view_on_site(self, obj):
 		return reverse('students_edit', kwargs={'pk': obj.id})
@@ -70,6 +80,7 @@ class GroupAdmin(admin.ModelAdmin):
 		else:
 			pass
 """
+
 
 # Register your models here.
 admin.site.register(Student, StudentAdmin)

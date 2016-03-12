@@ -73,7 +73,7 @@ class StudentCreateView(SuccessMessageMixin, CreateView):
 	"""docstring for StudentCreateForm"""
 
 	model = Student
-	template_name = 'students/students_add_generic_view.html'
+	template_name = 'students/students_add_edit.html'
 	form_class = StudentCreateForm
 	success_url = reverse_lazy("home")
 	success_message = u'Студента %(last_name)s %(first_name)s успішно додано!'
@@ -100,7 +100,7 @@ class StudentUpdateForm(StudentCreateForm):
 
 class StudentUpdateView(SuccessMessageMixin, UpdateView):
 	model = Student
-	template_name = 'students/students_add_generic_view.html'
+	template_name = 'students/students_add_edit.html'
 	form_class = StudentUpdateForm
 	success_url = reverse_lazy("home")
 	success_message = u'Студента %(last_name)s %(first_name)s успішно відредаговано!'
@@ -121,9 +121,24 @@ class StudentDeleteView(DeleteView):
 	model = Student
 	template_name = 'students/students_confirm_delete.html'
 
-	def get_success_url(self):
-		messages.success(self.request, u'Студента успішно видалено!')
+	def get_success_url(self, message=u'Студента успішно видалено!'):
+		messages.success(self.request, message)
 		return reverse('home')
+
+	def post(self, request, *args, **kwargs):
+		if 'cancel_button' in request.POST:
+			return HttpResponseRedirect(self.get_success_url(u'Видалення скасовано!'))
+		else:
+			return super(StudentDeleteView, self).post(request, *args, **kwargs)
+
+def students_delete_several(request):
+	if request.method == "POST":
+		students_id_list = request.POST.getlist('selected-student')
+		students_set = Student.objects.filter(pk__in=students_id_list)
+		students_set.delete()
+		messages.info(request, u'Вибраних студентів видалено!')
+		return HttpResponseRedirect(reverse('home'))
+
 
 """
 

@@ -122,10 +122,15 @@ class GroupUpdateView(SuccessMessageMixin, UpdateView):
 
 class GroupDeleteView(DeleteView):
 	"""docstring for GroupDeleteView"""
-
 	model = Group
 	template_name = 'students/groups_confirm_delete.html'
 
-	def get_success_url(self):
-		messages.success(self.request, u'Групу успішно видалено!')
+	def get_success_url(self, message=u'Групу успішно видалено!'):
+		messages.success(self.request, message)
 		return reverse('groups')
+
+	def post(self, request, *args, **kwargs):
+		if 'cancel_button' in request.POST:
+			return HttpResponseRedirect(self.get_success_url(u'Видалення скасовано!'))
+		else:
+			return super(GroupDeleteView, self).post(request, *args, **kwargs)
