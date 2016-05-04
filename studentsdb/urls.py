@@ -18,28 +18,30 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
 from students.views.contact_admin import ContactView
-from students.views.students import StudentCreateView, StudentUpdateView, StudentDeleteView
-from students.views.groups import GroupCreateView, GroupUpdateView, GroupDeleteView
+from students.views.students import StudentCreateView, StudentUpdateView, StudentDeleteView, StudentsView
+from students.views.groups import GroupCreateView, GroupUpdateView, GroupDeleteView, GroupsView
+from students.views.journal import JournalView
+from students.views.exams import ExamsView
 
 urlpatterns = [
 	#Students urls
-	url(r'^$', 'students.views.students.students_list', name='home'),
+	url(r'^$', StudentsView.as_view(), name='home'),
 	url(r'^students/add/$', StudentCreateView.as_view(), name='students_add'),
 	url(r'^students/(?P<pk>\d+)/edit/$', StudentUpdateView.as_view(), name='students_edit'),
 	url(r'^students/(?P<pk>\d+)/delete/$', StudentDeleteView.as_view(), name='students_delete'),
     url(r'^students/delete-several/$', 'students.views.students.students_delete_several', name="students-delete-several"),
 
 	#Groups urls
-	url(r'^groups/$', 'students.views.groups.groups_list', name='groups'),
+	url(r'^groups/$', GroupsView.as_view(), name='groups'),
 	url(r'^groups/add/$', GroupCreateView.as_view() , name='groups_add'),
 	url(r'^groups/(?P<pk>\d+)/edit/$', GroupUpdateView.as_view() , name='groups_edit'),
 	url(r'^groups/(?P<pk>\d+)/delete/$', GroupDeleteView.as_view(), name='groups_delete'),
 
 	#Journal urls
-	url(r'^journal/$', 'students.views.journal.students_list', name='journal'),
+    url(r'^journal/(?P<pk>\d+)?/?$', JournalView.as_view(), name='journal'),
 
 	#Exams urls
-	url(r'^exams/$', 'students.views.exams.exams_list', name='exams'),
+	url(r'^exams/$', ExamsView.as_view(), name='exams'),
 	url(r'^exams/add/$', 'students.views.exams.exams_add', name='exams_add'),
 	url(r'^exams/(?P<sid>\d+)/edit/$', 'students.views.exams.exams_edit', name='exams_edit'),
 	url(r'^exams/(?P<sid>\d+)/delete/$', 'students.views.exams.exams_delete', name='exams_delete'),

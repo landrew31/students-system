@@ -9,17 +9,39 @@ from datetime import datetime
 from django.contrib import messages
 from django.forms import ModelForm
 from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic.base import TemplateView
 from django.contrib.messages.views import SuccessMessageMixin
+import django
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from crispy_forms.bootstrap import FormActions
 
 from ..models import Student, Group
+from ..util import paginate, get_current_group
 
 #Views for Students
 
-def students_list(request):
+class StudentsView(TemplateView):
+
+	template_name = 'students/students_list.html'
+
+	def get_context_data(self, **kwargs):
+
+		context = super(StudentsView, self).get_context_data(**kwargs)
+
+		current_group = get_current_group(self.request)
+		if current_group:
+			students = Student.objects.filter(student_group=current_group)
+		else:
+			students = Student.objects.all().order_by('last_name')
+
+		context = paginate(students, 5, self.request, context, var_name='students')
+
+		return context
+
+
+"""def students_list(request):
 	students = Student.objects.all()
 
 	#try to order students list
@@ -40,6 +62,7 @@ def students_list(request):
 		students = paginator.page(paginator.num_pages)
 
 	return render(request, 'students/students_list.html', {'students': students})
+"""
 
 class StudentCreateForm(ModelForm):
 	class Meta:
@@ -61,7 +84,7 @@ class StudentCreateForm(ModelForm):
 		self.helper.help_text_inline = True
 		self.helper.html5_required = False
 		self.helper.label_class = 'col-sm-2 control-label'
-		self.helper.field_class = 'col-sm-10'
+		self.helper.field_class = 'col-sm-6'
 
 		# add buttons
 		self.helper.layout[-1] = FormActions(

@@ -4,11 +4,32 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from django.views.generic.base import TemplateView
 
-from ..models.exams import Exam
+from ..models import Exam
+from ..util import paginate, get_current_group
 
 #Views for Exams
 
+class ExamsView(TemplateView):
+
+	template_name = 'students/exams_list.html'
+
+	def get_context_data(self, **kwargs):
+
+		context = super(ExamsView, self).get_context_data(**kwargs)
+
+		current_group = get_current_group(self.request)
+		if current_group:
+			exams = Exam.objects.filter(for_group=current_group)
+		else:
+			exams = Exam.objects.all().order_by('subject')
+
+		context = paginate(exams, 5, self.request, context, var_name='exams')
+
+		return context
+
+"""
 def exams_list(request):
 	exams = Exam.objects.all()
 
@@ -30,6 +51,7 @@ def exams_list(request):
 		exams = paginator.page(paginator.num_pages)
 
 	return render(request, 'students/exams_list.html', {'exams': exams})
+"""
 
 def exams_add(request):
 	return HttpResponse('<h1>Exam Add Form</h1>')

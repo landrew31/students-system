@@ -1,9 +1,15 @@
 /* Global Styles */
-textarea,
-select,
-input{
-	max-width: 300px;
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
+
+main {
+  flex: 1 0 auto;
+  margin-top: 20px;
+}
+
 h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 }
@@ -29,4 +35,55 @@ h1, h2, h3, h4, h5, h6 {
 	height: 30px;
 	line-height: 30px;
 	color: #555555;
+}
+
+/* Journal Table Styles */
+td.day-box,
+th.day-header {
+	padding: 4px !important;
+	vertical-align: middle !important;
+	text-align: center;
+}
+
+#ajax-progress-indicator,
+#error-message {
+	display: none;
+}
+
+#error-message {
+	color: red;
+}
+
+.glyphicon-my {
+	font-family: "Glyphicons Halflings";
+  font-style: normal;
+}
+
+.ajax-loader{
+    display:none;
+    position:absolute;
+    width:100%;
+    height:100%;
+    left:0;
+    top:0;
+    background:rgba(0,0,0,0.1);
+    border-radius: 4px;
+}   
+
+.ajax-loader img{
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin-left: -65px;
+    margin-top: -20px;
+}
+
+.ajax-loader-modal{
+    position:relative;
+    width:130px;
+    height: 20px;
+    margin: auto;
+}
+.ajax-loader-modal img{
+    display: none;
 }

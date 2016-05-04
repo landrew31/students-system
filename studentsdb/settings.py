@@ -70,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                "students.context_processors.groups_processor",
             ],
         },
     },
@@ -124,6 +125,7 @@ TEMPLATE_CONTEXT_PROCESSORS = \
     global_settings.TEMPLATE_CONTEXT_PROCESSORS + [
     "django.core.context_processors.request",
     "studentsdb.context_processors.students_proc",
+    "students.context_processors.groups_processor"
 ]
 
 PORTAL_URL = 'http://localhost:8000'

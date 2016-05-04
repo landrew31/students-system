@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.forms import ModelForm
 from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic.base import TemplateView
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -15,9 +16,25 @@ from crispy_forms.layout import Submit
 from crispy_forms.bootstrap import FormActions
 
 from ..models.groups import Group
+from ..util import paginate 
 
 #Views for Groups
 
+class GroupsView(TemplateView):
+
+	template_name = 'students/groups_list.html'
+
+	def get_context_data(self, **kwargs):
+
+		context = super(GroupsView, self).get_context_data(**kwargs)
+
+		groups = Group.objects.all()
+
+		context = paginate(groups, 5, self.request, context, var_name='groups')
+
+		return context
+
+"""
 def groups_list(request):
 	groups = Group.objects.all()
 
@@ -39,6 +56,7 @@ def groups_list(request):
 		groups = paginator.page(paginator.num_pages)
 
 	return render(request, 'students/groups_list.html', {'groups':groups})
+"""
 
 class GroupCreateForm(ModelForm):
 	"""docstring for GroupCreateModel"""

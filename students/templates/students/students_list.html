@@ -20,7 +20,7 @@
 	{% with order_by=request.GET.order_by reverse=request.GET.reverse %}
 	<thead>
 		<tr>
-			<th class="col-checkbox">Check</th>
+			<th class="col-checkbox" width="40px">Check</th>
 			<th> <a href="{% url "home" %}?order_by=id{% if order_by == 'id' and reverse != '1' %}&amp;reverse=1{% endif %}">#
 			{% if order_by == 'id' and reverse != '1' %}&uarr;
 			{% elif order_by == 'id' and reverse == '1' %}&darr;{% endif %}</a></th>
@@ -42,15 +42,21 @@
 		{% for student in students %}
 		<tr>
 			<td><input type="checkbox" name="selected-student" value="{{student.id}}"></td>
-			<td>{{ student.id }}</td>
+			<td>
+        {% if is_paginated %}
+          {{ page_obj.start_index|add:forloop.counter|add:"-1" }}
+        {% else %}
+          {{ forloop.counter }}
+        {% endif %}
+      </td>
 			<td>
 			{% if student.photo %}
 			<img src="{{ student.photo.url }}" height="30" width="30" class="img-circle"></td>
 			{% else %}
 			<img src="{% static "img/default_user.png" %}" height="30" width="30" class="img-circle"></td>
 			{% endif %}
-			<td> <a title="Редагувати" href="{% url "students_edit" student.id %}">{{ student.last_name }}</a></td>
-			<td> <a title="Редагувати" href="{% url "students_edit" student.id %}">{{ student.first_name }}</a></td>
+			<td> <a title="Редагувати" href="{% url "students_edit" student.id %}" class="student-edit-form-link">{{ student.last_name }}</a></td>
+			<td> <a title="Редагувати" href="{% url "students_edit" student.id %}" class="student-edit-form-link">{{ student.first_name }}</a></td>
 			<td>{{ student.ticket }}</td>
 			<td>
 				<div class="dropdown">
@@ -58,10 +64,10 @@
 					</button>
 					<ul class="dropdown-menu" role="menu">
 						<li role="presentation">
-							<a href="/journal/{{ student.id }}" role="menuitem" tabindex="-1">Відвідування</a>
+							<a href="{% url "journal" student.id %}" role="menuitem" tabindex="-1">Відвідування</a>
 						</li>
 						<li role="presentation">
-						    <a role="menuitem" tabindex="-1" href="{% url "students_edit" student.id  %}">Редагувати</a>
+						    <a role="menuitem" tabindex="-1" href="{% url "students_edit" student.id  %}" class="student-edit-form-link">Редагувати</a>
 						</li>
 						<li role="presentation">
 						    <a role="menuitem"tabindex="-1" href="{% url "students_delete" student.id %}">Видалити</a>
@@ -79,7 +85,11 @@
 
 </form>
 
-{% if students.has_other_pages %}
+{% with object_list=students %}
+  {% include "students/pagination.html" %}
+{% endwith %}
+
+<!--{% if students.has_other_pages %}
 {% with order_by=request.GET.order_by reverse=request.GET.reverse %}
 <nav>
     <ul class="pagination">
@@ -94,3 +104,4 @@
 {% endif %}
 
 {% endblock content %}
+-->
