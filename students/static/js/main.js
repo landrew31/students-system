@@ -152,7 +152,7 @@ function initEditStudentPage() {
 
 function navTabs() {
     var navLinks = $('.nav-tabs li > a');
-    navLinks.click(function(event) {
+    navLinks.off('click').on('click', function(event) {
         var url = this.href;
         $.ajax({
             'url': url,
@@ -179,6 +179,13 @@ function navTabs() {
                 window.history.pushState("string", pageTitle, url);
                 // update page title
                 document.title = $(data).filter('title').text();
+
+                initJournal();
+                initGroupSelector();
+                initDateFields();
+                addDateSymbol();
+                initEditStudentPage();
+                closeModalBackButton();
             },
             'error': function() {
                 alert('Помилка на сервері.');
@@ -189,7 +196,8 @@ function navTabs() {
             },
             'complete': function() {
                 $('.ajax-loader').hide();
-                initFunctions();
+
+                
             }
         });
         event.preventDefault();

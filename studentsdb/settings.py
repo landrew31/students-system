@@ -142,6 +142,12 @@ EMAIL_HOST_PASSWORD = '021296qwe'
 # EMAIL_USE_TLS = True
 EMAIL_USE_SSL = True
 
+ADMINS = (
+    ('andrew31', 'lupa_andriy@list.ru'),
+)
+
+MANAGERS = ADMINS
+
 LOG_FILE = os.path.join(BASE_DIR, 'studentsdb.log')
 
 LOGGING = {
@@ -162,8 +168,8 @@ LOGGING = {
         },
         'console': {
             'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
+            'class': 'studentsdb.handlers.ColorizingStreamHandler',
+            'formatter': 'simple'
         },
         'file': {
             'level': 'INFO',
@@ -171,6 +177,11 @@ LOGGING = {
             'filename': LOG_FILE,
             'formatter': 'verbose'
         },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'verbose'
+        }
     },
     'loggers': {
         'django': {
@@ -179,12 +190,16 @@ LOGGING = {
             'level': 'INFO',
         },
         'students.signals': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file', 'mail_admins'],
             'level': 'INFO',
         },
         'students.views.contact_admin': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file', 'mail_admins'],
             'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR'
         }
     }
 }
