@@ -1,11 +1,12 @@
+{% load i18n %}
 {% load static from staticfiles%}
 <!DOCTYPE html>
 <html lang="uk">
 
 <head>
 	<meta charset="UTF-8"/>
-	<title>Сервіс обліку студентів - {% block meta_title %}{% endblock meta_title %}</title>
-	<meta name="Description" value="Система обліку студентів навчального закладу" />
+	<title>{% trans "Students Accounting Service" %} - {% block meta_title %}{% endblock meta_title %}</title>
+	<meta name="Description" value="{% trans "App to manage students database" %}" />
 	<meta name="viewport" content="width=device-width, initial-scale">
 
 	<!-- Include Styles -->
@@ -28,15 +29,15 @@
 
 			<!-- Logo -->
 			<div class="col-xs-8">
-				<h1>Сервіс Обліку Студентів</h1>
+				<h1>{% trans "Students Accounting Service" %}</h1>
 			</div>
 
 			<!-- Groups Selector -->
 			{% block groupmenu %}
 			<div class="col-xs-4" id="group-selector">
-				<STRONG>Група:</STRONG>
+				<STRONG>{% trans "Group:" %}</STRONG>
 				<select>
-					<option value="">Усі Студенти</option>
+					<option value="">{% trans "All students" %}</option>
 					{% for group in GROUPS %}
 					<option value="{{ group.id }}"{% if group.selected %}selected="1"{% endif %}>
 						{{ group.title }}{% if group.leader %}, {{ group.leader }}{% endif %}
@@ -53,12 +54,12 @@
 		<div class="row" id="sub-header">
 			<div class="col-xs-12">
 				<ul class="nav nav-tabs">
-					<li role="presentation" {% if request.path == '/' %}class="active"{% endif %}> <a class="new-content-url" href="{% url "home" %}?order_by=last_name">Студенти</a></li>
-					<li role="presentation" {% if '/journal' in request.path %}class="active"{% endif %}> <a class="new-content-url" href="/journal">Відвідування</a></li>
-					<li role="presentation" {% if '/groups' in request.path %}class="active"{% endif %}> <a class="new-content-url" href="{% url "groups" %}">Групи</a></li>
-					<li role="presentation" {% if '/exams' in request.path %}class="active"{% endif %}> <a class="new-content-url" href="{% url "exams" %}">Іспити</a></li>
-					<li role="presentation" {% if '/results' in request.path %}class="active"{% endif %}> <a class="new-content-url" href="{% url "results" %}">Результати Іспитів</a></li>
-					<li role="presentation" {% if '/contact_admin' in request.path %}class="active"{% endif %}> <a class="new-content-url"  href="{% url "contact_admin" %}">Контакт</a></li>
+					<li role="presentation" {% if request.path == '/' %}class="active"{% endif %}> <a class="new-content-url" href="{% url "home" %}?order_by=last_name">{% trans "Students" %}</a></li>
+					<li role="presentation" {% if '/journal' in request.path %}class="active"{% endif %}> <a class="new-content-url" href="/journal">{% trans "Journal" %}</a></li>
+					<li role="presentation" {% if '/groups' in request.path %}class="active"{% endif %}> <a class="new-content-url" href="{% url "groups" %}">{% trans "Groups" %}</a></li>
+					<li role="presentation" {% if '/exams' in request.path %}class="active"{% endif %}> <a class="new-content-url" href="{% url "exams" %}">{% trans "Exams" %}</a></li>
+					<li role="presentation" {% if '/results' in request.path %}class="active"{% endif %}> <a class="new-content-url" href="{% url "results" %}">{% trans "Results" %}</a></li>
+					<li role="presentation" {% if '/contact_admin' in request.path %}class="active"{% endif %}> <a class="new-content-url"  href="{% url "contact_admin" %}">{% trans "Contact admin" %}</a></li>
 				</ul>
 			</div>
 		</div>
@@ -104,7 +105,7 @@
 	<div class="container">
 		<div class="row" id="footer">
 			<div class="col-xs-12">
-				&copy; 2016 Сервіс Обліку Студентів
+				&copy; 2016 {% trans "Students Accounting Service" %}
 			</div>
 		</div>
 	</div>
