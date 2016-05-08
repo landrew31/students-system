@@ -23,6 +23,10 @@ from students.views.groups import GroupCreateView, GroupUpdateView, GroupDeleteV
 from students.views.journal import JournalView
 from students.views.exams import ExamsView
 
+js_info_dict = {
+	'packages': ('students',)
+}
+
 urlpatterns = [
 	#Students urls
 	url(r'^$', StudentsView.as_view(), name='home'),
@@ -57,6 +61,8 @@ urlpatterns = [
 	# 'students.views.contact_admin.contact_admin'
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^jsi18n\.js$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    url('^set-language/$', 'students.views.langs.set_language', name='langs'),
 ]
 
 from .settings import MEDIA_ROOT, DEBUG

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django.shortcuts import render
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse, HttpResponseRedirect
@@ -14,6 +12,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from crispy_forms.bootstrap import FormActions
+
+from django.utils.translation import ugettext as _, ugettext_lazy as __
 
 from ..models.groups import Group
 from ..util import paginate 
@@ -34,29 +34,6 @@ class GroupsView(TemplateView):
 
 		return context
 
-"""
-def groups_list(request):
-	groups = Group.objects.all()
-
-	# try to order group list
-	order_by = request.GET.get('order_by', '')
-	if order_by in ('id', 'title', 'leader'):
-		groups = groups.order_by(order_by)
-		if request.GET.get('reverse', '') == '1':
-			groups = groups.reverse()
-
-	# paginate groups
-	paginator = Paginator(groups, 3)
-	page = request.GET.get('page')
-	try:
-		groups = paginator.page(page)
-	except PageNotAnInteger:
-		groups = paginator.page(1)
-	except EmptyPage:
-		groups = paginator.page(paginator.num_pages)
-
-	return render(request, 'students/groups_list.html', {'groups':groups})
-"""
 
 class GroupCreateForm(ModelForm):
 	"""docstring for GroupCreateModel"""
@@ -81,8 +58,8 @@ class GroupCreateForm(ModelForm):
 
 		# add buttons
 		self.helper.layout.append( FormActions(
-		    Submit('add_button', u'Зберегти', css_class="btn btn-primary"),
-			Submit('cancel_button', u'Скасувати', css_class="btn btn-link"),
+		    Submit('add_button', _(u'Save'), css_class="btn btn-primary"),
+			Submit('cancel_button', _(u'Cancel'), css_class="btn btn-link"),
 		) )
 
 		#self.fields['leader'].widget.attrs = {'disabled': 'True'}
@@ -94,16 +71,16 @@ class GroupCreateView(SuccessMessageMixin, CreateView):
 	template_name = 'students/groups_add.html'
 	form_class = GroupCreateForm
 	success_url = reverse_lazy("groups")
-	success_message = u'Групу %(title)s успішно додано!'
+	success_message = __(u'Group "%(title)s" was successfully added!')
 
 	def get_context_data(self, **kwargs):
 		context = super(GroupCreateView, self).get_context_data(**kwargs)
-		context['page_title'] = u'Додати групу'
+		context['page_title'] = _(u'Add group')
 		return context
 
 	def post(self, request, *args, **kwargs):
 		if request.POST.get('cancel_button') is not None:
-			messages.info(request, u'Додавання групи скасовано!')
+			messages.info(request, _(u'Group adding canceled!'))
 			return HttpResponseRedirect(self.success_url)
 		else:
 			return super(GroupCreateView, self).post(request, *args, **kwargs)
@@ -123,16 +100,16 @@ class GroupUpdateView(SuccessMessageMixin, UpdateView):
 	template_name = 'students/groups_add.html'
 	form_class = GroupUpdateForm
 	success_url = reverse_lazy("groups")
-	success_message = u'Групу %(title)s успішно змінено!'
+	success_message = __(u'Group "%(title)s" was successfully updated!')
 
 	def get_context_data(self, **kwargs):
 		context = super(GroupUpdateView, self).get_context_data(**kwargs)
-		context['page_title'] = u'Редагувати групу'
+		context['page_title'] = _(u'Update group')
 		return context
 
 	def post(self, request, *args, **kwargs):
 		if request.POST.get('cancel_button'):
-			messages.info(request, u'Редагування скасовано!')
+			messages.info(request, _(u'Updating canceled!'))
 			return HttpResponseRedirect(self.success_url)
 		else:
 			return super(GroupUpdateView, self).post(request, *args, **kwargs)
@@ -143,12 +120,12 @@ class GroupDeleteView(DeleteView):
 	model = Group
 	template_name = 'students/groups_confirm_delete.html'
 
-	def get_success_url(self, message=u'Групу успішно видалено!'):
+	def get_success_url(self, message=_(u'Group successfully deleted!')):
 		messages.success(self.request, message)
 		return reverse('groups')
 
 	def post(self, request, *args, **kwargs):
 		if 'cancel_button' in request.POST:
-			return HttpResponseRedirect(self.get_success_url(u'Видалення скасовано!'))
+			return HttpResponseRedirect(self.get_success_url(_(u'Deleting canceled!')))
 		else:
 			return super(GroupDeleteView, self).post(request, *args, **kwargs)

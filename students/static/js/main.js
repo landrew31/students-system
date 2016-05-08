@@ -85,7 +85,7 @@ function initEditStudentForm(form, modal) {
       $('input, select, textarea, a, button').removeAttr('disabled', 'disabled');
     },
     'error': function(){
-      alert('Помилка на сервері. Спробуйте будь-ласка пізніше.');
+      alert(gettext('There was an error on the server. Please, try again a bit later.'));
       return false;
     },
     'success': function(data, status, xhr) {
@@ -125,7 +125,7 @@ function initEditStudentPage() {
       'success': function(data, status, xhr){
         // check if we got successfull response from the server
         if (status != 'success') {
-          alert('Помилка на сервері. Спробуйте будь-ласка пізніше.');
+          alert(gettext('There was an error on the server. Please, try again a bit later.'));
           return false;
         }
         var modal = $('#myModal'),
@@ -141,7 +141,7 @@ function initEditStudentPage() {
         });
       },
       'error': function(){
-        alert('Помилка на сервері. Спробуйте будь-ласка пізніше.');
+        alert(gettext('There was an error on the server. Please, try again a bit later.'));
         return false;
       }
     });
@@ -161,7 +161,7 @@ function navTabs() {
             'success': function(data, status, xhr){
                 // check if we got successful responcse
                 if (status != 'success') {
-                    alert('Помилка на сервері.');
+                    alert(gettext('There was an error on the server. Please, try again a bit later.'));
                     return false;
                 };
                 // update table
@@ -188,7 +188,7 @@ function navTabs() {
                 closeModalBackButton();
             },
             'error': function() {
-                alert('Помилка на сервері.');
+                alert(gettext('There was an error on the server. Please, try again a bit later.'));
                 return false;
             },
             'beforeSend': function() {

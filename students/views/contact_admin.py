@@ -10,6 +10,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.views.generic.edit import FormView
 
+from django.utils.translation import ugettext as _, ugettext_lazy as __
+
 import logging
 
 from studentsdb.settings import ADMIN_EMAIL
@@ -36,20 +38,23 @@ class ContactForm(forms.Form):
 		self.helper.field_class = 'col-sm-10'
 
 		# form buttons
-		self.helper.add_input(Submit('send_button', u'Надіслати'))
+		self.helper.add_input(Submit('send_button', _(u'Send')))
 		
 
 	from_email = forms.EmailField(
-		label=u'Ваша Емейл Адреса')
+		label=_(u'Your Email')
+	)
 
 	subject = forms.CharField(
-		label=u'Заголовок листа',
-		max_length=128)
+		label=_(u'Letter header'),
+		max_length=128
+	)
 
 	message = forms.CharField(
-		label=u'Текст повідомлення',
+		label=_(u'Message text'),
 		max_length=2560,
-		widget=forms.Textarea)
+		widget=forms.Textarea
+	)
 
 	recipient_list = [ADMIN_EMAIL]
 
@@ -61,11 +66,11 @@ class ContactForm(forms.Form):
 		try:
 			sent = send_mail(subject, message, from_email, [ADMIN_EMAIL])
 		except Exception:
-			message = u'Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатись даною формою пізніше.'
+			message = _(u'Unknown mistake appeared during sending. Try to use the form later.')
 			logger = logging.getLogger(__name__)
 			logger.exception(message)
 		else:
-			message = u'Повідомлення успішно надіслане!'
+			message = _(u'Message successfully sent!')
 		return sent
 
 
@@ -81,40 +86,10 @@ class ContactView(FormView):
 		try:
 			form.send_email()
 		except Exception:
-			messages.error(self.request, u'Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатися даною формою пізніше')
+			messages.error(self.request, _(u'Unknown mistake appeared during sending. Try to use the form later.'))
 		else:
-			messages.success(self.request, u'Повідомлення успішно надіслано!')
+			messages.success(self.request, _(u'Message successfully sent!')
+)
 
 		return super(ContactView, self).form_valid(form)
 
-"""
-def contact_admin(request):
-	# check if form posted
-	if request.method == 'POST':
-		#create a form instance and populate it with data from the request:
-		form = ContactForm(request.POST)
-
-		# check wether user data is valid:
-		if form.is_valid():
-			# send email
-			subject = form.cleaned_data['subject']
-			s_message = form.cleaned_data['message']
-			from_email = form.cleaned_data['from_email']
-
-			try:
-				send_mail(subject, s_message, from_email, [ADMIN_EMAIL])
-			except Exception:
-				messages.error(request, u'Під час відправки листа виникла непередбачувана помилка. Спробуйте скористатися даною формою пізніше')
-			else:
-				messages.success(request, u'Повідомлення успішно надіслано!')
-				
-
-			# redirect to the same contact page with success message
-			return HttpResponseRedirect(reverse('contact_admin'))
-
-	# if there was not POST render blank form
-	else:
-		form = ContactForm()
-
-	return render(request, 'contact_admin/form.html', {'form': form})
-	"""

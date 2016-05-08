@@ -87,3 +87,7 @@ th.day-header {
 .ajax-loader-modal img{
     display: none;
 }
+
+.lang-select-form {
+  display: inline;
+}
